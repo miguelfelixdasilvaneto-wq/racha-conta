@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { join } from 'node:path';
 import pc from 'picocolors';
 
 // ... a leitura e o reduce continuam iguais
@@ -14,11 +15,52 @@ console.table(conta.itens);
 const subtotal = conta.itens.reduce((total, item) => total + item.preco * item.quantidade, 0);
 console.log(pc.yellow('Racha-conta:'), conta.restaurante);
 
-// ... os console.log continuam iguais
-
-console.log('Subtotal: R$', subtotal.toFixed(2));
 const x = conta.itens.reduce((total, item) => total + item.quantidade, 0);
 console.log("Unidades pedidas:", x)
 const y = conta.itens.filter(item => item.preco > 50).length; 
-
+const subtotalCentavos = Math.round(subtotal * 100)
+const gorjetaCentavos = Math.round(subtotalCentavos * conta.gorjeta / 100);
+const totalCentavos = subtotalCentavos + gorjetaCentavos;
 console.log("itens acima de R$ 50", y)
+const restaurante = 'cantina bella nonna';
+const pessoas = 4;
+
+console.log('mesa de', pessoas, 'na', restaurante);
+console.log('mesa de ${pessoas} na ${restaurante}');
+
+console.log(`Subtotal: R$ ${(subtotalCentavos / 100).toFixed(2)}`);
+console.log(`Gorjeta (${conta.gorjeta}%): R$ ${(gorjetaCentavos / 100).toFixed(2)}`);
+console.log(`Total: R$ ${(totalCentavos / 100).toFixed(2)}`);
+
+console.log(Math.floor(totalCentavos / pessoas) /100)
+console.log(Math.floor(totalCentavos % pessoas))
+
+function saudar() {
+    console.log('boa noite! mesa para quanto?')
+}
+function linha() {
+    console.log('======================================================================')
+}
+linha()
+saudar()
+saudar()
+linha()
+function totalDoItem(preco, quantidade) {
+  return preco * quantidade;
+}
+function mostrarTotalDoItem(preco, quantidade) {
+  console.log(preco * quantidade);
+}
+
+const a = totalDoItem(14.5, 2);
+const b = mostrarTotalDoItem(14.5, 2);
+console.log(a, b);
+function totalDoItem(preco, quantidade) {
+  return preco * quantidade;
+}
+
+const refri = totalDoItem(14.5, 2);
+console.log(refri);
+console.log(totalDoItem(72.9, 1) + totalDoItem(14.5, 2));
+console.log(`Refrigerantes: R$ ${totalDoItem(14.5, 2).toFixed(2)}`);
+
