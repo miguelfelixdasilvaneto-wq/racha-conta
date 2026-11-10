@@ -1,6 +1,7 @@
 import fs from 'node:fs';
-import { paraCentavos } from '../regras/conta.js';
+import { paraCentavos,calcularGorjeta, formatarReais } from '../regras/conta.js';
 import pc from 'picocolors';
+import { format } from 'node:path';
 
 // ... a leitura e o reduce continuam iguais
 
@@ -17,9 +18,9 @@ console.log(pc.yellow('Racha-conta:'), conta.restaurante);
 
 const x = conta.itens.reduce((total, item) => total + item.quantidade, 0);
 console.log("Unidades pedidas:", x)
-const y = conta.itens.filter(item => item.preco > 50).length; 
-const subtotalCentavos = paraCentavos(subtotal) 
-const gorjetaCentavos = Math.round(subtotalCentavos * conta.gorjeta / 100);
+const y = conta.itens.filter(item => item.preco > 50).length;
+const subtotalCentavos = paraCentavos(subtotal)
+const gorjetaCentavos= calcularGorjeta(subtotalCentavos, conta.gorjeta);
 const totalCentavos = subtotalCentavos + gorjetaCentavos;
 console.log("itens acima de R$ 50", y)
 const restaurante = 'cantina bella nonna';
@@ -32,14 +33,14 @@ console.log(`Subtotal: R$ ${(subtotalCentavos / 100).toFixed(2)}`);
 console.log(`Gorjeta (${conta.gorjeta}%): R$ ${(gorjetaCentavos / 100).toFixed(2)}`);
 console.log(`Total: R$ ${(totalCentavos / 100).toFixed(2)}`);
 
-console.log(Math.floor(totalCentavos / pessoas) /100)
+console.log(Math.floor(totalCentavos / pessoas) / 100)
 console.log(Math.floor(totalCentavos % pessoas))
 
 function saudar() {
-    console.log('boa noite! mesa para quanto?')
+  console.log('boa noite! mesa para quanto?')
 }
 function linha() {
-    console.log('======================================================================')
+  console.log('======================================================================')
 }
 linha()
 saudar()
@@ -62,3 +63,10 @@ console.log(refri);
 console.log(totalDoItem(72.9, 1) + totalDoItem(14.5, 2));
 console.log(`Refrigerantes: R$ ${totalDoItem(14.5, 2).toFixed(2)}`);
 
+export function calularGorjeta(subtotal, percentual = 10) {
+  return Math.round9(SUBTOTAL * PERCENTUAL / 100);
+}
+
+console.log (formatarReais(100)) 
+
+const caro = (item) => item.preco > 50;
