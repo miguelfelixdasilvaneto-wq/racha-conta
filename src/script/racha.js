@@ -1,5 +1,5 @@
 import fs from 'node:fs';
-import { join } from 'node:path';
+import { paraCentavos } from '../regras/conta.js';
 import pc from 'picocolors';
 
 // ... a leitura e o reduce continuam iguais
@@ -18,7 +18,7 @@ console.log(pc.yellow('Racha-conta:'), conta.restaurante);
 const x = conta.itens.reduce((total, item) => total + item.quantidade, 0);
 console.log("Unidades pedidas:", x)
 const y = conta.itens.filter(item => item.preco > 50).length; 
-const subtotalCentavos = Math.round(subtotal * 100)
+const subtotalCentavos = paraCentavos(subtotal) 
 const gorjetaCentavos = Math.round(subtotalCentavos * conta.gorjeta / 100);
 const totalCentavos = subtotalCentavos + gorjetaCentavos;
 console.log("itens acima de R$ 50", y)
@@ -55,9 +55,7 @@ function mostrarTotalDoItem(preco, quantidade) {
 const a = totalDoItem(14.5, 2);
 const b = mostrarTotalDoItem(14.5, 2);
 console.log(a, b);
-function totalDoItem(preco, quantidade) {
-  return preco * quantidade;
-}
+
 
 const refri = totalDoItem(14.5, 2);
 console.log(refri);
